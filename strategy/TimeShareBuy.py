@@ -7,6 +7,7 @@ sys.path.append(r"..")
 from CommonAPI.MathAPI import ema, hhv,  LAST
 from CommonAPI.StockInfo import stock_today_data_min_list, stock_yesterday_close_price, valid_stock_code_list
 from CommonAPI.StoreData import StoreData
+from CommonAPI.TimeFunc import  now_time_lt, get_now_weekday
 '''
 HJ_1:=EMA(CLOSE,12)-EMA(CLOSE,26);
 HJ_2:=EMA(HJ_1,9);
@@ -185,7 +186,10 @@ class TimeShareBuyModel(object):
                 t=sorted(self.m_data, key=lambda v : v[0])
                 self.store(t)
                 self.m_data.clear()
-                
+            if now_time_lt("15:00:00") == False or get_now_weekday() >= 5:
+                print("---------finished-------------")
+                break
+            
         #for obj in self.m_object_list:
             #obj.run()
         

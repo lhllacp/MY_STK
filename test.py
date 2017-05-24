@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-import tushare as ts
-
-df = ts.get_today_ticks('601333')
-print(“xxx”)
+if __name__ == "__main__":
+    a="a,b,c,d"
+    a_list=a.split(",")
+    print(a_list)
+    b=":".join(a_list)
+    print(b)

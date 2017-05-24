@@ -90,7 +90,7 @@ def stock_real_time_data_dict(code_list):
         try:
             lines=urllib.request.urlopen(url).readlines()
         except:
-            LOG_ERROR("open url[%s] failed", os.path.basename(sys._getframe().f_code.co_filename), sys._getframe().f_lineno)
+            LOG_ERROR("open url[%s] failed"%(url))
             return None
         else:
             for j in range(len(lines)):
@@ -199,17 +199,22 @@ def stock_today_data_min_list(code):
         js=json.loads(data) 
         data_list=js["data"][code_str]["data"]["data"]
     except:
-        LOG_ERROR("open url[%s] failed")
+        LOG_ERROR("open url[%s] failed"%(url))
         return None
     ret_list=[]
     v=0.0
     for i in data_list:
         str_list=i.split(" ")
-        t=float(str_list[-1])
-        str_list[-1]= t - v
-        str_list[-2]=float(str_list[-2])
-        v=t
-        ret_list.append(str_list)
+        try:
+            t=float(str_list[-1])
+            str_list[-1]= t - v
+            str_list[-2]=float(str_list[-2])
+            v=t
+            ret_list.append(str_list)
+        except:
+            LOG_ERROR(":".join(data_list))
+            LOG_ERROR(":".join(str_list))
+            break
     return ret_list
 
 def local_stock_history_data_day(code_list, d, t):
