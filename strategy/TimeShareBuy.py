@@ -2,7 +2,7 @@
 from multiprocessing.dummy import Pool
 import threading
 import sys
-from CommonAPI.Log import LOG_INFO, SET_LOG_NAME, LOG_DEBUG
+from CommonAPI.Log import LOG_INFO, SET_LOG_NAME, LOG_DEBUG,SET_LOG_LEVEL
 sys.path.append(r"..")
 from CommonAPI.MathAPI import ema, hhv,  LAST
 from CommonAPI.StockInfo import stock_today_data_min_list, stock_yesterday_close_price, valid_stock_code_list
@@ -111,7 +111,7 @@ class TimeShareBuy(object):
             return None  
 
         if not (self.m_hj1[-1] > 0.0 and self.m_hj2[-1] > 0.0 and self.m_hj3[-1] >0.0):
-            LOG_INFO("%d %f %f %f %f "%(cl_len, CL[-1], self.m_hj1[-1], self.m_hj2[-1], self.m_hj3[-1]))
+            #LOG_INFO("1:%d %f %f %f %f "%(cl_len, CL[-1], self.m_hj1[-1], self.m_hj2[-1], self.m_hj3[-1]))
             return None
         
         
@@ -120,11 +120,12 @@ class TimeShareBuy(object):
         if (cl_len - self.m_filter_len) < (self.m_filter_len - self.m_len):            
             return None       
         if not (CL[-1] > HJ_8 and CL[-2] <= HJ_8 and self.m_hj11[-1] <= CL[-1]):
-            LOG_INFO("%d %f %f %f %f "%(cl_len, CL[-1], CL[-2], HJ_8, self.m_hj11[-1]))         
+            #LOG_INFO("3:%d %f %f %f %f "%(cl_len, CL[-1], CL[-2], HJ_8, self.m_hj11[-1]))         
             return None
         
         
         if not(CL[-1] <= self.m_yesterday_close * 1.04 and CL[-1] > self.m_yesterday_close):
+            #LOG_INFO("3:%d %f %f %f %f "%(cl_len, CL[-1], CL[-2], HJ_8, self.m_hj11[-1])) 
             return None
         self.m_filter_len = cl_len
         if cl_len <= 121:
@@ -139,6 +140,7 @@ class TimeShareBuy(object):
         ret.append("%s"%(self.m_code))
         ret.append("%.2f"%(CL[-1]))
         LOG_INFO("%d:%d\t%s\t%.2f"%(t, m, self.m_code, CL[-1]))
+        print(ret)
         return ret       
     def run(self):
         LOG_DEBUG("code:%s"%(self.m_code))
@@ -147,10 +149,10 @@ class TimeShareBuy(object):
         if data_list != None:
             price_list=[x[1] for x in data_list]
             data_len=len(price_list)
-            while self.m_calc < data_len: 
+            while self.m_calc < data_len and ret  == None: 
                 self.m_calc=self.m_calc + 1
                 CL=price_list[0:self.m_calc]
-                ret=self.filter(CL)  
+                ret=self.filter(CL)
         return ret      
                 
         
@@ -197,10 +199,10 @@ class TimeShareBuyModel(object):
     
 if __name__ == "__main__":
     SET_LOG_NAME("TimeShareBuyModel")
+    #SET_LOG_LEVEL(4)
     model=TimeShareBuyModel()
     model.run()
-    #t=TimeShareBuy("603239")
-    #t.run()
-    #t.display()
+    #t=TimeShareBuy("600576")
+    #print(t.run())
     
     
