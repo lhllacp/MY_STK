@@ -1,4 +1,4 @@
-#coding=gb2312
+#coding:utf-8
 import urllib.request
 from time import sleep
 from nt import system
@@ -10,8 +10,8 @@ def code_to_symbol(code):
     else:
         return ""
 class StockRealTimeData(object):
-    EXTEND_HEAD_LIST=['ÕÇ·ùÂÊ','³É±¾¼Û', 'Ó¯Àû', 'Ó¯ÀûÂÊ']    
-    HEAD_LIST=['¹ÉÆ±Ãû³Æ', '½ñ¿ª', '×òÊÕ', 'ÏÖ¼Û', '×î¸ß¼Û', '×îµÍ¼Û', '¾ºÂò¼Û', '¾ºÂô¼Û', '³É½»¹ÉÊý', '³É½»½ð¶î', 'ÂòÒ»£¨¹É£©', 'ÂòÒ»£¨¼Û£©','Âò¶þ£¨¹É£©', 'Âò¶þ£¨¼Û£©','ÂòÈý£¨¹É£©', 'ÂòÈý£¨¼Û£©','ÂòËÄ£¨¹É£©', 'ÂòËÄ£¨¼Û£©','ÂòÎå£¨¹É£©', 'ÂòÎå£¨¼Û£©', 'ÂôÒ»£¨¹É£©', 'ÂôÒ»£¨¼Û£©','Âô¶þ£¨¹É£©', 'Âô¶þ£¨¼Û£©','ÂôÈý£¨¹É£©', 'ÂôÈý£¨¼Û£©','ÂôËÄ£¨¹É£©', 'ÂôËÄ£¨¼Û£©','ÂôÎå£¨¹É£©', 'ÂôÎå£¨¼Û£©', 'ÈÕÆÚ', 'Ê±¼ä']
+    EXTEND_HEAD_LIST=['æ¶¨å¹…çŽ‡','æˆæœ¬ä»·', 'ç›ˆåˆ©', 'ç›ˆåˆ©çŽ‡']    
+    HEAD_LIST=['è‚¡ç¥¨åç§°', 'ä»Šå¼€', 'æ˜¨æ”¶', 'çŽ°ä»·', 'æœ€é«˜ä»·', 'æœ€ä½Žä»·', 'ç«žä¹°ä»·', 'ç«žå–ä»·', 'æˆäº¤è‚¡æ•°', 'æˆäº¤é‡‘é¢', 'ä¹°ä¸€ï¼ˆè‚¡ï¼‰', 'ä¹°ä¸€ï¼ˆä»·ï¼‰','ä¹°äºŒï¼ˆè‚¡ï¼‰', 'ä¹°äºŒï¼ˆä»·ï¼‰','ä¹°ä¸‰ï¼ˆè‚¡ï¼‰', 'ä¹°ä¸‰ï¼ˆä»·ï¼‰','ä¹°å››ï¼ˆè‚¡ï¼‰', 'ä¹°å››ï¼ˆä»·ï¼‰','ä¹°äº”ï¼ˆè‚¡ï¼‰', 'ä¹°äº”ï¼ˆä»·ï¼‰', 'å–ä¸€ï¼ˆè‚¡ï¼‰', 'å–ä¸€ï¼ˆä»·ï¼‰','å–äºŒï¼ˆè‚¡ï¼‰', 'å–äºŒï¼ˆä»·ï¼‰','å–ä¸‰ï¼ˆè‚¡ï¼‰', 'å–ä¸‰ï¼ˆä»·ï¼‰','å–å››ï¼ˆè‚¡ï¼‰', 'å–å››ï¼ˆä»·ï¼‰','å–äº”ï¼ˆè‚¡ï¼‰', 'å–äº”ï¼ˆä»·ï¼‰', 'æ—¥æœŸ', 'æ—¶é—´']
     def stock_code_dict(self):
         ret_dict={}
         hd = open("StockCode", "r")
