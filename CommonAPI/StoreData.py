@@ -32,7 +32,10 @@ class StoreData(object):
         
 
 
-
+def record_data_list(path, data_list):
+    fp = open(path, "wb+")
+    fp.writelines(data_list)
+    fp.close();
 
 
 

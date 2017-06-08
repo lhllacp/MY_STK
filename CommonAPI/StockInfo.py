@@ -3,8 +3,7 @@ import urllib.request
 import lxml.html
 import re
 import json
-import sys
-import os
+import time
 from CommonAPI.Log import LOG_ERROR
 
 
@@ -17,6 +16,22 @@ def time_to_second(t):
     t=t.strip(' ')
     t_list=t.split(':')
     return t_list[0] * 3600 + t_list[1] * 60 + t_list[2]
+
+
+
+
+def get_url_data(url):
+    retry = 0
+    while retry < 3:
+        try:
+            data = urllib.request.urlopen(url).read().decode()
+            return data
+        except:
+            retry = retry + 1
+            LOG_ERROR("open url[%s] failed. retry[%d]"%(url, retry))
+            time.sleep(2)
+    return None
+            
 
 
 
@@ -33,7 +48,6 @@ def get_A_stock_code_dict(st=True):
     html=urllib.request.urlopen(url).read()
     tree = lxml.html.fromstring(html)
     code_list = tree.xpath("//*[@id='quotesearch']/ul[position()<3]/li[*]/a/text()")
-    print(len(code_list))
     code_dict={}
     for code in code_list:
         vk=code.split('(')
@@ -56,7 +70,9 @@ def get_shA_stock_code_list(st=True):
     
     pass
 
-
+def get_A_stock_code_list(st=True):
+    code_dict = get_A_stock_code_dict(st)
+    return list(code_dict.keys())
 
 
 def local_stock_code_list():
@@ -217,10 +233,26 @@ def stock_today_data_min_list(code):
             break
     return ret_list
 
+def stock_today_data_sec_list(code):
+    code_str=code_to_symbol(code)
+    url="http://web.ifzq.gtimg.cn/appstock/app/minute/query?code=" + code_str
+    data = get_url_data(url)
+    if data is None:
+        return data
+    else:
+        js=json.loads(data) 
+        return js["data"][code_str]["data"]["data"]
+    
+
+
 def local_stock_history_data_day(code_list, d, t):
     pass
 def local_stock_history_minute(code_list, d, t):
     pass
 if __name__ == "__main__":
-    LOG_ERROR("xxx")
+    try:
+        x = 1 / 0
+    except Exception as err:
+        print(err)
+    
     
