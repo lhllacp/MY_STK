@@ -1,8 +1,0 @@
-eclipse.preferences.version=1
-encoding//CommonAPI/StockInfo.py=utf-8
-encoding//CommonAPI/stock_data_cache.py=utf-8
-encoding//TrendAnalysis/K_form.py=utf-8
-encoding//strategy/FastRaise.py=utf-8
-encoding//strategy/TimeShareBuy.py=utf-8
-encoding/StockRealTimeData.py=utf-8
-encoding/test.py=utf-8
