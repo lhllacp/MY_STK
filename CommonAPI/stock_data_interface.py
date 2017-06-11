@@ -26,9 +26,10 @@ def get_url_data(url):
         try:
             data = urllib.request.urlopen(url).read().decode()
             return data
-        except:
+        except Exception as err:
             retry = retry + 1
-            LOG_ERROR("open url[%s] failed. retry[%d]"%(url, retry))
+            LOG_ERROR("open url[%s] failed. err[%s] retry[%d]"%(url, err, retry))
+            print("open url[%s] failed. err[%s] retry[%d]"%(url, err, retry))
             time.sleep(2)
     return None
             
@@ -242,17 +243,7 @@ def stock_today_data_sec_list(code):
     else:
         js=json.loads(data) 
         return js["data"][code_str]["data"]["data"]
-    
-
-
-def local_stock_history_data_day(code_list, d, t):
-    pass
-def local_stock_history_minute(code_list, d, t):
-    pass
 if __name__ == "__main__":
-    try:
-        x = 1 / 0
-    except Exception as err:
-        print(err)
+    pass
     
     
