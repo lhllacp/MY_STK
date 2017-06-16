@@ -22,9 +22,10 @@ def time_to_second(t):
 
 def get_url_data(url):
     retry = 0
+    print(url)
     while retry < 3:
         try:
-            data = urllib.request.urlopen(url).read().decode()
+            data = urllib.request.urlopen(url).read().decode('GB18030')
             return data
         except Exception as err:
             retry = retry + 1
@@ -33,6 +34,23 @@ def get_url_data(url):
             time.sleep(2)
     return None
             
+
+def get_url_data_list(url):
+    retry = 0
+    while retry < 3:
+        try:
+            lines= urllib.request.urlopen(url).readlines()
+            data_list = []
+            for line in lines:
+                data_list.append(line.decode('GB18030'))
+            return data_list
+        except Exception as err:
+            retry = retry + 1
+            LOG_ERROR("open url[%s] failed. err[%s] retry[%d]"%(url, err, retry))
+            print("open url[%s] failed. err[%s] retry[%d]"%(url, err, retry))
+            time.sleep(2)
+    return None
+
 
 
 
@@ -87,8 +105,17 @@ def local_stock_code_list():
 
 
 
-
-
+def stock_real_time_data_list(code):
+    '''
+    ['股票名称', '今开', '昨收', '现价', '最高价', '最低价', '竞买价', '竞卖价', '成交股数', '成交金额', '买一（股）', '买一（价）','买二（股）', '买二（价）','买三（股）', '买三（价）','买四（股）', '买四（价）','买五（股）', '买五（价）', '卖一（股）', '卖一（价）','卖二（股）', '卖二（价）','卖三（股）', '卖三（价）','卖四（股）', '卖四（价）','卖五（股）', '卖五（价）', '日期', '时间']
+    '''
+    url="http://hq.sinajs.cn/list=" + code_to_symbol(code)
+    data=get_url_data(url)
+    if data is None:
+        return None
+    else:
+        index=data.find("\"")
+        return data[index+1:-3].split(',')
 
 def stock_real_time_data_dict(code_list):
 #['股票名称', '今开', '昨收', '现价', '最高价', '最低价', '竞买价', '竞卖价', '成交股数', '成交金额', '买一（股）', '买一（价）','买二（股）', '买二（价）','买三（股）', '买三（价）','买四（股）', '买四（价）','买五（股）', '买五（价）', '卖一（股）', '卖一（价）','卖二（股）', '卖二（价）','卖三（股）', '卖三（价）','卖四（股）', '卖四（价）','卖五（股）', '卖五（价）', '日期', '时间']
@@ -102,23 +129,17 @@ def stock_real_time_data_dict(code_list):
                 url=url + ","+ code_to_symbol(code_list[i])
             else:
                 url="http://hq.sinajs.cn/list=" + code_to_symbol(code_list[0])   
-    data={}
-    if url != None:
-        try:
-            lines=urllib.request.urlopen(url).readlines()
-        except:
-            LOG_ERROR("open url[%s] failed"%(url))
-            return None
-        else:
-            for j in range(len(lines)):
-                line=lines[j].decode('GB18030')            
-                t=str(line)
-                index=t.find("\"")
-                v=t[index+1:-3]
-                k=code_list[j]
-                data[k]=v.split(',')
-        
-    return data      
+    data_dict={}
+    data_list= get_url_data_list(url)
+    if data_list is None:
+        return None
+    else:
+        for j in range(len(data_list)):
+            data=data_list[j]      
+            index=data.find("\"")
+            v=data[index+1:-3]
+            data_dict[code_list[j]]=v.split(',')
+        return data_dict      
 
 
 
@@ -143,10 +164,6 @@ def valid_stock_code_list():
                     if v[1] != 0.0:
                         ret_list.append(k)
     return ret_list
-
-
-
-
 
 def stock_yesterday_close_price(code):    
     data_dict=stock_real_time_data_dict([code])
@@ -244,6 +261,6 @@ def stock_today_data_sec_list(code):
         js=json.loads(data) 
         return js["data"][code_str]["data"]["data"]
 if __name__ == "__main__":
-    pass
+    print(stock_real_time_data_list("002004"))
     
     
