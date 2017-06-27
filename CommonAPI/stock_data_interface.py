@@ -25,15 +25,7 @@ def get_url_data(url):
     print(url)
     while retry < 3:
         try:
-            return data
-        except Exception as err:
-            retry = retry + 1
-            LOG_ERROR("open url[%s] failed. err[%s] retry[%d]"%(url, err, retry))
-            print("open url[%s] failed. err[%s] retry[%d]"%(url, err, retry))
-            time.sleep(2)
-    return None
-            
-
+            data = urllib.request.urlopen(url).read().decode('GB18030')
             return data
         except Exception as err:
             retry = retry + 1
