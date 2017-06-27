@@ -2,10 +2,9 @@
 import sys
 sys.path.append(r"..")
 
-from CommonAPI.StockInfo import local_stock_code_list,stock_real_time_data,time_to_second,\
+from CommonAPI.StockInfo import local_stock_code_list,time_to_second,\
     fiter_stock_code_list
 from GUI.RLCBWidget import  RLCBWidget
-from CommonAPI.StockLog import StockLog
 
 global_stock_code_data=local_stock_code_list()
 

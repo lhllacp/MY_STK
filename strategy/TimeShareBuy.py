@@ -140,7 +140,6 @@ class TimeShareBuy(object):
         ret.append("%s"%(self.m_code))
         ret.append("%.2f"%(CL[-1]))
         LOG_INFO("%d:%d\t%s\t%.2f"%(t, m, self.m_code, CL[-1]))
-        print(ret)
         return ret       
     def run(self):
         LOG_DEBUG("code:%s"%(self.m_code))
