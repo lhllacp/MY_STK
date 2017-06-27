@@ -1,9 +1,10 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from CommonAPI.stock_data_interface import stock_history_data_day_list
 
-BETA=0.5;
-DISTANCE=0
+BETA=5;
+DISTANCE=10
 def KPSegmentation(x):
     y=[]
     x_ie=[0]
@@ -29,13 +30,14 @@ def KPSegmentation(x):
 
 if __name__ == "__main__":
     #numbers = [ int(x) for x in numbers ]
-    x=[5, 1, 3, 2, 6, 10, 8, 7, 2, 9, 4, 2, 5, 8, 9, 10, 20, 15, 3, 2, 2, 6, 10]
-    t = np.arange(len(x))
+    x = stock_history_data_day_list("002004")
+    y = [float(k[3]) for k in x]
+    t = np.arange(len(y))
     for i in range(1,3):
         print(i)
     print(len(t))
-    plt.plot(t, np.array(x))
-    x0, y0 = KPSegmentation(x)
+    plt.plot(t, np.array(y))
+    x0, y0 = KPSegmentation(y)
     plt.plot(x0, y0)
     plt.show()
     print(x0)
