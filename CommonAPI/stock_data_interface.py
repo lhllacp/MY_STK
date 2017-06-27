@@ -237,13 +237,22 @@ def stock_today_data_min_list(code):
 def stock_today_data_sec_list(code):
     code_str=code_to_symbol(code)
     url="http://web.ifzq.gtimg.cn/appstock/app/minute/query?code=" + code_str
-    data = get_url_data(url)
-    if data is None:
-        return data
-    else:
-        js=json.loads(data) 
-        return js["data"][code_str]["data"]["data"]
+    retry = 0
+    while retry < 3:
+        data = get_url_data(url)
+        if data is None:
+            return data
+        else:
+            js=json.loads(data) 
+            code=js["code"]
+            if code != 0:
+                retry = retry  + 1
+                LOG_ERROR("url[%s] failed. code[%s] retry[%d]"%(url, code, retry))
+                time.sleep(2)
+            else:                
+                return js["data"][code_str]["data"]["data"]
 if __name__ == "__main__":
+    print(stock_today_data_sec_list("002665"))
     pass
     
     
