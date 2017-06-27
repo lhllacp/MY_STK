@@ -7,14 +7,12 @@ times:
 
 '''
 from datetime import datetime, date, timedelta
-from CommonAPI.StockLog import StockLog
 from CommonAPI.StockInfo import stock_history_data_day_list
 class FastRaiseTest():
-    def stock_buy_price_dict(self, day=None):#默认昨天 或者20170215
+    def stock_buy_price_dict(self, day=None):#榛樿鏄ㄥぉ 鎴栬��20170215
         price_dict={}
         if day== None:
             day=date.today()- timedelta(days=1)
-        log=StockLog("FastRaise", day)
         log_list=log.get_log_list()           
         for line in log_list:
             line_list=line.split(" ")

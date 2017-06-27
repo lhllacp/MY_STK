@@ -3,7 +3,7 @@ import datetime
 import os
 import sys
 sys.path.append(r"..")
-from CommonAPI.StockInfo import stock_today_data_sec_list, get_A_stock_code_list
+from CommonAPI.stock_data_interface import stock_today_data_sec_list, get_A_stock_code_list
 
 def get_date_dir():
     return os.path.join("sec",datetime.datetime.now().strftime("%Y_%m_%d"))
